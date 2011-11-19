@@ -1,18 +1,24 @@
 public class Path {
   
+  import toxi.geom.*;
+  
+  
   static private final color PATH_COLOR = #dc982c;
   static private final int PATH_WIDTH = 70;
   
-  private Point start;
-  private Point end;
+  Spline2D path;
   
   
   /**
    * Constructor
    */
   Path() {
-    start = new Point(50, 50);
-    end = new Point(500, 250);
+    path = new Spline2D();
+    path.add(new Vec2D(50, 50));
+    path.add(new Vec2D(100, 70));
+    path.add(new Vec2D(200, 200));
+    path.add(new Vec2D(250, 220));
+    path.add(new Vec2D(320, 245));
   }
   
   /**
@@ -21,7 +27,13 @@ public class Path {
   public void draw() {
     stroke(PATH_COLOR);
     strokeWeight(PATH_WIDTH);
-    line(start.getX(), start.getY(), end.getX(), end.getY());
+    
+    beginShape();
+    for (Iterator i = path.pointList.iterator(); i.hasNext();) {
+      Vec2D v = (Vec2D)i.next();
+      vertex(v.x, v.y);
+    }
+    endShape();
   }
   
 }
