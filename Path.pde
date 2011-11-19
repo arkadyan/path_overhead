@@ -19,6 +19,7 @@ public class Path {
     path.add(new Vec2D(200, 200));
     path.add(new Vec2D(250, 220));
     path.add(new Vec2D(320, 245));
+    path.add(new Vec2D(500, 700));
   }
   
   /**
@@ -27,6 +28,7 @@ public class Path {
   public void draw() {
     stroke(PATH_COLOR);
     strokeWeight(PATH_WIDTH);
+    noFill();
     
     beginShape();
     for (Iterator i = path.pointList.iterator(); i.hasNext();) {
