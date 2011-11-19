@@ -1,7 +1,7 @@
 public class Tree {
   
   static private final color TREE_COLOR = #084813;
-  static private final int TREE_DIAMETER = 30;
+  static private final int TREE_DIAMETER = 50;
   
   private Point loc;
   
