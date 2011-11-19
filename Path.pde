@@ -1,11 +1,12 @@
 public class Path {
   
   import toxi.geom.*;
+  import toxi.processing.*;
   
   
   static private final color PATH_COLOR = #dc982c;
   static private final int PATH_WIDTH = 70;
-  
+
   Spline2D path;
   
   
@@ -25,17 +26,12 @@ public class Path {
   /**
    * Draw the path.
    */
-  public void draw() {
+  public void draw(ToxiclibsSupport gfx) {
     stroke(PATH_COLOR);
     strokeWeight(PATH_WIDTH);
     noFill();
     
-    beginShape();
-    for (Iterator i = path.pointList.iterator(); i.hasNext();) {
-      Vec2D v = (Vec2D)i.next();
-      vertex(v.x, v.y);
-    }
-    endShape();
+    gfx.lineStrip2D(path.pointList);
   }
   
 }

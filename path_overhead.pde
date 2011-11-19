@@ -1,8 +1,13 @@
+import toxi.processing.*;
+
+
 private static final int WORLD_WIDTH = 6800;
 private static final int WORLD_HEIGHT = 4800;
 
 private static final color GRASS_COLOR = #017f16;
 private static final int NUM_TREES = 2000;
+
+ToxiclibsSupport gfx;
 
 private Path path;
 private Tree[] trees = new Tree[NUM_TREES];
@@ -15,6 +20,8 @@ void setup() {
   noCursor();
   ellipseMode(CENTER);
   
+  gfx = new ToxiclibsSupport(this);
+  
   path = new Path();
   placeTrees();
 }
@@ -23,7 +30,7 @@ void draw() {
   background(GRASS_COLOR);
   
   // Draw the path
-  path.draw();
+  path.draw(gfx);
   
   // Draw all the trees
   for (int i=0; i<trees.length; i++) {
