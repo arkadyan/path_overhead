@@ -6,14 +6,14 @@ public class Tree {
   static private final color TREE_COLOR = #084813;
   static private final int TREE_DIAMETER = 50;
   
-  private Vec2D loc;
+  private Vec2D position;
   
   
   /**
    * Constructor
    */
   Tree(float _x, float _y) {
-    loc = new Vec2D(_x, _y);
+    position = new Vec2D(_x, _y);
   }
   
   
@@ -24,6 +24,6 @@ public class Tree {
     noStroke();
     fill(TREE_COLOR);
     // TODO: Draw a tree shape that's more interesting than a circle.
-    ellipse(loc.x, loc.y, TREE_DIAMETER, TREE_DIAMETER);
+    ellipse(position.x, position.y, TREE_DIAMETER, TREE_DIAMETER);
   }
 }
