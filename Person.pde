@@ -9,10 +9,10 @@ class Person {
   
   
   static private final color PERSON_COLOR = #000000;
-  static private final int BODY_LENGTH = 15;
-  static private final int BODY_WIDTH = 30;
-  static private final int HEAD_LENGTH = 15;
-  static private final int HEAD_WIDTH = 12;
+  static private final int BODY_LENGTH = 8;
+  static private final int BODY_WIDTH = 15;
+  static private final int HEAD_LENGTH = 8;
+  static private final int HEAD_WIDTH = 6;
   
   static private final float MAX_SPEED = 3;
   
@@ -71,9 +71,9 @@ class Person {
     
     beginShape();
     // Body oval
-    ellipse(0, 0, BODY_WIDTH, BODY_LENGTH);
+    gfx.ellipse(new Ellipse(0, 0, BODY_WIDTH, BODY_LENGTH));
     // Head oval
-    ellipse(0, -0.3*HEAD_LENGTH, HEAD_WIDTH, HEAD_LENGTH);
+    gfx.ellipse(new Ellipse(0, -0.5*HEAD_LENGTH, HEAD_WIDTH, HEAD_LENGTH));
     endShape();
     popMatrix();
     
