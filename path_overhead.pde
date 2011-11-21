@@ -14,6 +14,7 @@ ToxiclibsSupport gfx;
 
 private Path path;
 private Tree[] trees = new Tree[NUM_TREES];
+private Person person;
 
 
 void setup() {
@@ -27,6 +28,7 @@ void setup() {
   
   path = new Path();
   placeTrees();
+  person = new Person(new Vec2D(0.5*width, 0.5*height));   // Start at the center for now.
 }
 
 void draw() {
@@ -39,6 +41,10 @@ void draw() {
   for (int i=0; i<trees.length; i++) {
     trees[i].draw();
   }
+  
+  // Update and draw the person
+  person.update();
+  person.draw(gfx, debug);
 }
 
 /**
