@@ -1,3 +1,7 @@
+/**
+ * Representation of person that lives in this world
+ * and walks along paths.
+ */
 class Person {
   
   import toxi.geom.*;
@@ -17,6 +21,11 @@ class Person {
   private Vec2D acceleration;
   
   
+  /**
+   * Creates a new person position at the given location.
+   * 
+   * @param pos  The position to start at.
+   */
   Person(Vec2D pos) {
     position = new Vec2D(pos);
     velocity = new Vec2D(MAX_SPEED, 0);
@@ -42,6 +51,9 @@ class Person {
   
   /**
    * Draw our person at the current position.
+   *
+   * @param gfx  A ToxiclibsSupport object to use for drawing.
+   * @param debug  Whether on not to draw debugging visuals.
    */
   public void draw(ToxiclibsSupport gfx, boolean debug) {
     // Since it is drawn pointing up, we rotate it an additional 90 degrees.
@@ -61,5 +73,22 @@ class Person {
     ellipse(0, -0.3*HEAD_LENGTH, HEAD_WIDTH, HEAD_LENGTH);
     endShape();
     popMatrix();
+  }
+  
+  /**
+   * Make the person follow along a given Path.
+   *
+   * @param path  The Path object the person should follow.
+   */
+  public void follow(Path path) {
+    
+  }
+  
+  
+  /**
+   * Translate force on this Person into acceleration.
+   */
+  private void applyForce(Vec2D force) {
+    acceleration.addSelf(force);
   }
 }

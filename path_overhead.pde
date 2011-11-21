@@ -43,6 +43,7 @@ void draw() {
   }
   
   // Update and draw the person
+  person.follow(path);
   person.update();
   person.draw(gfx, debug);
 }
