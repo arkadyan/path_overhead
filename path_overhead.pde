@@ -8,7 +8,7 @@ private static final color GRASS_COLOR = #017f16;
 private static final int NUM_TREES = 2000;
 
 // Whether or not to display extra visuals for debugging.
-private boolean debug = false;
+private boolean debug = true;
 
 ToxiclibsSupport gfx;
 

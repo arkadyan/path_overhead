@@ -18,8 +18,8 @@ class Person {
   
   
   Person(Vec2D pos) {
-    position = pos.copy();
-    velocity = new Vec2D(0, 0);
+    position = new Vec2D(pos);
+    velocity = new Vec2D(MAX_SPEED, 0);
     acceleration = new Vec2D(0, 0);
   }
   
@@ -31,11 +31,11 @@ class Person {
    */
   public void update() {
     // Update our velocity based on our current acceleration.
-    velocity.add(acceleration);
+    velocity.addSelf(acceleration);
     // Limit our speed.
     velocity.limit(MAX_SPEED);
     // Update our position based on our current velocity.
-    position.add(velocity);
+    position.addSelf(velocity);
     // Reset acceleration to 0 each cycle.
     acceleration.scale(0);
   }
@@ -46,7 +46,6 @@ class Person {
   public void draw(ToxiclibsSupport gfx, boolean debug) {
     // Since it is drawn pointing up, we rotate it an additional 90 degrees.
     float theta = velocity.heading() + PI/2;
-/*    println("theta=" + theta + ", degrees=" + degrees(theta));*/
     
     noStroke();
     fill(PERSON_COLOR);
