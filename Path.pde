@@ -26,11 +26,25 @@ public class Path {
   /**
    * Draw the path.
    */
-  public void draw(ToxiclibsSupport gfx) {
+  public void draw(ToxiclibsSupport gfx, boolean debug) {
+    // Draw the path with the full width.
     stroke(PATH_COLOR);
     strokeWeight(PATH_WIDTH);
     noFill();
+    gfx.lineStrip2D(path.pointList);
     
+    if (debug) drawDebugVisuals(gfx);
+  }
+  
+  
+  /**
+   * Draw extra information for debugging.
+   */
+  private void drawDebugVisuals(ToxiclibsSupport gfx) {
+    // Draw a thin line in the center of the path.
+    stroke(50);
+    strokeWeight(1);
+    noFill();
     gfx.lineStrip2D(path.pointList);
   }
   

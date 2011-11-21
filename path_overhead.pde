@@ -7,6 +7,9 @@ private static final int WORLD_HEIGHT = 4800;
 private static final color GRASS_COLOR = #017f16;
 private static final int NUM_TREES = 2000;
 
+// Whether or not to display extra visuals for debugging.
+private boolean debug = false;
+
 ToxiclibsSupport gfx;
 
 private Path path;
@@ -30,12 +33,19 @@ void draw() {
   background(GRASS_COLOR);
   
   // Draw the path
-  path.draw(gfx);
+  path.draw(gfx, debug);
   
   // Draw all the trees
   for (int i=0; i<trees.length; i++) {
     trees[i].draw();
   }
+}
+
+/**
+ * Toggle the debug display by hitting the spacebar.
+ */
+void keyPressed() {
+  if (key == ' ') debug = ! debug;
 }
 
 
