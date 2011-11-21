@@ -20,6 +20,9 @@ class Person {
   private Vec2D velocity;
   private Vec2D acceleration;
   
+  // Properties shown while debugging
+  private Vec2D predictedPosition;
+  
   
   /**
    * Creates a new person position at the given location.
@@ -73,6 +76,8 @@ class Person {
     ellipse(0, -0.3*HEAD_LENGTH, HEAD_WIDTH, HEAD_LENGTH);
     endShape();
     popMatrix();
+    
+    if (debug) drawDebugVisuals(gfx);
   }
   
   /**
@@ -81,7 +86,8 @@ class Person {
    * @param path  The Path object the person should follow.
    */
   public void follow(Path path) {
-    
+    // Predict location 25 (arbitrary choice) frames ahead.
+    predictedPosition = predictPosition(25);
   }
   
   
@@ -90,5 +96,25 @@ class Person {
    */
   private void applyForce(Vec2D force) {
     acceleration.addSelf(force);
+  }
+  
+  /**
+   * Predict our position a given number of frames into the future.
+   */
+  private Vec2D predictPosition(int frames) {
+    Vec2D prediction = velocity.getNormalized();
+    prediction.scaleSelf(frames);
+    return position.add(prediction);
+  }
+  
+  /**
+   * Draw extra visuals useful for debugging purposes.
+   */
+  private void drawDebugVisuals(ToxiclibsSupport gfx) {
+    // Draw the predicted future position.
+    stroke(#ff00ff);
+    fill(#ff00ff);
+    gfx.line(position, predictedPosition);
+    gfx.ellipse(new Ellipse(predictedPosition, 4));
   }
 }
