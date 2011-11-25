@@ -26,7 +26,7 @@ abstract class Mover {
     // Update our position based on our current velocity.
     position.addSelf(velocity);
     // Reset acceleration to 0 each cycle.
-    acceleration.scale(0);
+    acceleration.scaleSelf(0);
   }
   
   
@@ -34,6 +34,6 @@ abstract class Mover {
    * Translate force on this Person into acceleration.
    */
   protected void applyForce(Vec2D force) {
-    acceleration.addSelf(force);
+    acceleration.addSelf(force.limit(maxForce));
   }
 }
