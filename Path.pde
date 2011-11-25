@@ -15,12 +15,10 @@ public class Path {
    */
   Path() {
     path = new Spline2D();
-    path.add(new Vec2D(50, 50));
-    path.add(new Vec2D(100, 70));
-    path.add(new Vec2D(200, 200));
-    path.add(new Vec2D(250, 220));
-    path.add(new Vec2D(320, 245));
-    path.add(new Vec2D(500, 700));
+    path.add(new Vec2D(0, 400));
+    path.add(new Vec2D(150, 350));
+    path.add(new Vec2D(500, 150));
+    path.add(new Vec2D(680, 80));
   }
   
   /**

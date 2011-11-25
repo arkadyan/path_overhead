@@ -31,7 +31,8 @@ class Person {
    */
   Person(Vec2D pos) {
     position = new Vec2D(pos);
-    velocity = new Vec2D(MAX_SPEED, 0);
+    velocity = new Vec2D(0, 0);
+/*    velocity = new Vec2D(MAX_SPEED, 0);*/
     acceleration = new Vec2D(0, 0);
   }
   

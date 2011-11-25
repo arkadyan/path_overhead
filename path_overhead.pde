@@ -1,11 +1,14 @@
 import toxi.processing.*;
 
 
-private static final int WORLD_WIDTH = 6800;
-private static final int WORLD_HEIGHT = 4800;
+/*private static final int WORLD_WIDTH = 6800;*/
+private static final int WORLD_WIDTH = 680;
+/*private static final int WORLD_HEIGHT = 4800;*/
+private static final int WORLD_HEIGHT = 480;
 
 private static final color GRASS_COLOR = #017f16;
-private static final int NUM_TREES = 2000;
+private static final int NUM_TREES = 20;
+/*private static final int NUM_TREES = 2000;*/
 
 // Whether or not to display extra visuals for debugging.
 private boolean debug = true;
@@ -28,7 +31,7 @@ void setup() {
   
   path = new Path();
   placeTrees();
-  person = new Person(new Vec2D(0.5*width, 0.5*height));   // Start at the center for now.
+  person = new Person(new Vec2D(0, 0.6*height));   // Start at the center for now.
 }
 
 void draw() {
