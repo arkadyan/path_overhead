@@ -18,6 +18,7 @@ class Person extends Mover {
   private Vec2D predictedPosition;   // Where we expect to be in the future.
   private Vec2D targetPosition;   // Where we should steer to if too far off course.
   private boolean isSteering;   // Whether we are currently steering towards the targetPosition.
+  private Vec2D steeringForce = new Vec2D();   // The steering force directing us towards the target.
   
   
   /**
@@ -28,7 +29,7 @@ class Person extends Mover {
   Person(Vec2D pos) {
     position = new Vec2D(pos);
     
-    maxSpeed = 3;
+    maxSpeed = 1;
     maxForce = 0.1;
     
     velocity = new Vec2D(maxSpeed, 0);
@@ -168,10 +169,11 @@ class Person extends Mover {
    */
   private void seek(Vec2D target) {
     // A vector pointing from our current location to the target.
-    Vec2D desired = targetPosition.sub(position);
+    Vec2D desired = target.sub(position);
     
     // If the distance equals 0, skip out here.
     if (desired.x==0 && desired.y==0) return;
+    
     // The distance is the magnitude of the vector pointing from 
     // our position to the target.
     float distance = desired.magnitude();
@@ -188,11 +190,11 @@ class Person extends Mover {
     }
     
     // Steering force = desired - velocity
-    Vec2D steer = desired.sub(velocity);
+    steeringForce = desired.sub(velocity);
     // Limit the magnitude of the steering force.
-    steer.limit(maxForce);
+    steeringForce.limit(maxForce);
     // Apply the force to the object's acceleration
-    applyForce(steer);
+    applyForce(steeringForce);
   }
   
   /**
@@ -217,5 +219,12 @@ class Person extends Mover {
       fill(#000000);
     }
     gfx.ellipse(new Ellipse(targetPosition, 5));
+    
+    // Draw the steering force if active
+    if (isSteering) {
+      stroke(#66ffff);
+      noFill();
+      gfx.line(position, position.add(steeringForce.scale(1000)));
+    }
   }
 }
