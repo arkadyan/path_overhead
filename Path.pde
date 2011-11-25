@@ -41,6 +41,13 @@ public class Path {
     return path.getPointList();
   }
   
+  /**
+   * Get the width of the path.
+   */
+  public int getWidth() {
+    return PATH_WIDTH;
+  }
+  
   
   /**
    * Draw extra information for debugging.

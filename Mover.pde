@@ -10,6 +10,7 @@ abstract class Mover {
   protected Vec2D acceleration;   // Our current vector of acceleration. 
   
   protected float maxSpeed;
+  protected float maxForce;
   
   
   /**
@@ -32,7 +33,7 @@ abstract class Mover {
   /**
    * Translate force on this Person into acceleration.
    */
-  private void applyForce(Vec2D force) {
+  protected void applyForce(Vec2D force) {
     acceleration.addSelf(force);
   }
 }
