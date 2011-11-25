@@ -17,7 +17,7 @@ ToxiclibsSupport gfx;
 
 private Path path;
 private Tree[] trees = new Tree[NUM_TREES];
-private Person person;
+private ArrayList<Person> people;
 
 
 void setup() {
@@ -31,7 +31,10 @@ void setup() {
   
   path = new Path();
   placeTrees();
-  person = new Person(new Vec2D(0, 380));   // Start at one end of the path.
+  
+  people = new ArrayList();
+  // Start the first person at the left end of the path.
+  people.add(new Person(new Vec2D(0, 380)));
 }
 
 void draw() {
@@ -45,10 +48,22 @@ void draw() {
     trees[i].draw();
   }
   
-  // Update and draw the person
-  person.follow(path);
-  person.update();
-  person.draw(gfx, debug);
+  // Update and draw each person.
+  ArrayList<Person> personReapList = new ArrayList();
+  for (Person person : people) {
+    person.follow(path);
+    person.update();
+    if (person.getPosition().x+15 < 0 || person.getPosition().x-15 > width) {
+      // Mark for removal if off the canvas.
+      personReapList.add(person);
+    } else {
+      person.draw(gfx, debug);
+    }
+  }
+  // Remove all people who have been marked.
+  for (Person person : personReapList) {
+    people.remove(person);
+  }
 }
 
 /**

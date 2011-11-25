@@ -38,6 +38,14 @@ class Person extends Mover {
   
   
   /**
+   * Get the position of this person.
+   */
+  public Vec2D getPosition() {
+    return position;
+  }
+  
+  
+  /**
    * Draw our person at the current position.
    *
    * @param gfx  A ToxiclibsSupport object to use for drawing.
