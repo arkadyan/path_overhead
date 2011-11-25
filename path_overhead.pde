@@ -31,7 +31,7 @@ void setup() {
   
   path = new Path();
   placeTrees();
-  person = new Person(new Vec2D(0, 0.6*height));   // Start at the center for now.
+  person = new Person(new Vec2D(0, 380));   // Start at one end of the path.
 }
 
 void draw() {
