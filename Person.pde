@@ -100,10 +100,30 @@ class Person extends Mover {
       Vec2D b = points.get(i+1);
       
       // Get the normal point to this line segment.
-/*      Vec2D tmpNormal = getNormalPoint(predictedPosition, a, b);*/
+      Vec2D tmpNormal = getNormalPoint(predictedPosition, a, b);
     }
     
     return normal;
+  }
+  
+  /**
+   * Get the normal point from a point to a line segment.
+   * This function could be optimized to make fewer new Vector objects.
+   *
+   * @param pnt  The point from which to find the normal.
+   * @param a  The point at one end of the line.
+   * @param b  The point at the other end of the line.
+   */
+  private Vec2D getNormalPoint(Vec2D pnt, Vec2D a, Vec2D b) {
+    // Vector from a to pnt.
+    Vec2D ap = pnt.sub(a);
+    // Vector from a to b
+    Vec2D ab = b.sub(a);
+    // Normalize the line.
+    ab.normalize();
+    // Project vector diff onto the line using the dot product.
+    ab.scale(ap.dot(ab));
+    return a.add(ab);
   }
   
   /**
