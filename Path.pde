@@ -34,6 +34,13 @@ public class Path {
     if (debug) drawDebugVisuals(gfx);
   }
   
+  /**
+   * Get the list of points that make up this Path.
+   */
+  public List<Vec2D> getPointList() {
+    return path.getPointList();
+  }
+  
   
   /**
    * Draw extra information for debugging.

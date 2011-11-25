@@ -2,7 +2,7 @@
  * Representation of person that lives in this world
  * and walks along paths.
  */
-class Person {
+class Person extends Mover {
   
   import toxi.geom.*;
   import toxi.processing.*;
@@ -13,15 +13,10 @@ class Person {
   static private final int BODY_WIDTH = 15;
   static private final int HEAD_LENGTH = 8;
   static private final int HEAD_WIDTH = 6;
-  
-  static private final float MAX_SPEED = 3;
-  
-  private Vec2D position;
-  private Vec2D velocity;
-  private Vec2D acceleration;
-  
+    
   // Properties shown while debugging
-  private Vec2D predictedPosition;
+  private Vec2D predictedPosition;   // Where we expect to be in the future.
+  private Vec2D targetPosition;   // Where we should steer to if too far off course.
   
   
   /**
@@ -31,27 +26,13 @@ class Person {
    */
   Person(Vec2D pos) {
     position = new Vec2D(pos);
-    velocity = new Vec2D(0, 0);
-/*    velocity = new Vec2D(MAX_SPEED, 0);*/
+/*    velocity = new Vec2D(0, 0);*/
+    velocity = new Vec2D(maxSpeed, 0);
     acceleration = new Vec2D(0, 0);
+    
+    maxSpeed = 3;
   }
   
-  
-  /**
-   * Update our position based on the current velocity,
-   * and our velocity based on the current acceleration.
-   * Reset the acceleration to 0 on every cycle.
-   */
-  public void update() {
-    // Update our velocity based on our current acceleration.
-    velocity.addSelf(acceleration);
-    // Limit our speed.
-    velocity.limit(MAX_SPEED);
-    // Update our position based on our current velocity.
-    position.addSelf(velocity);
-    // Reset acceleration to 0 each cycle.
-    acceleration.scale(0);
-  }
   
   /**
    * Draw our person at the current position.
@@ -89,15 +70,11 @@ class Person {
   public void follow(Path path) {
     // Predict location 25 (arbitrary choice) frames ahead.
     predictedPosition = predictPosition(25);
+    
+    // Target the closest normal point on the path segment to the predictPosition.
+    targetPosition = findClosestNormal(path);
   }
   
-  
-  /**
-   * Translate force on this Person into acceleration.
-   */
-  private void applyForce(Vec2D force) {
-    acceleration.addSelf(force);
-  }
   
   /**
    * Predict our position a given number of frames into the future.
@@ -106,6 +83,27 @@ class Person {
     Vec2D prediction = velocity.getNormalized();
     prediction.scaleSelf(frames);
     return position.add(prediction);
+  }
+  
+  /**
+   * Determine the closest normal to the predictedPosition
+   * on any segments of the given path.
+   */
+  private Vec2D findClosestNormal(Path path) {
+    Vec2D normal = null;
+    float shortestDistance = -1;
+    
+    List<Vec2D> points = path.getPointList();
+    for (int i=0; i < points.size()-1; i++) {
+      // Look at a line segment.
+      Vec2D a = points.get(i);
+      Vec2D b = points.get(i+1);
+      
+      // Get the normal point to this line segment.
+/*      Vec2D tmpNormal = getNormalPoint(predictedPosition, a, b);*/
+    }
+    
+    return normal;
   }
   
   /**
