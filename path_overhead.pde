@@ -11,7 +11,7 @@ private static final int NUM_TREES = 20;
 /*private static final int NUM_TREES = 2000;*/
 
 // Whether or not to display extra visuals for debugging.
-private boolean debug = true;
+private boolean debug = false;
 
 ToxiclibsSupport gfx;
 

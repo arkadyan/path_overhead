@@ -87,7 +87,7 @@ class Person extends Mover {
     
 
     // Determine whether to steer towards our targetPosition
-    if (predictedPosition.distanceTo(targetPosition) > path.getWidth()*0.5) {
+    if (predictedPosition.distanceTo(targetPosition) > path.getWidth()*0.4) {
       isSteering = true;
       seek(targetPosition);
     } else {
