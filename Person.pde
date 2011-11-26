@@ -19,8 +19,10 @@ class Person extends Mover {
   // Properties shown while debugging
   private Vec2D predictedPosition;   // Where we expect to be in the future.
   private Vec2D targetPosition;   // Where we should steer to if too far off course.
-  private boolean isSteering;   // Whether we are currently steering towards the targetPosition.
-  private Vec2D steeringForce = new Vec2D();   // The steering force directing us towards the target.
+  private boolean isFollowSteering = false;   // Whether we are currently steering towards the targetPosition.
+  private Vec2D followSteeringForce = new Vec2D();   // The steering force directing us towards the target.
+  private boolean isAvoidSteering = false;   // Whether we are currently steering away from other people.
+  private Vec2D avoidSteeringForce = new Vec2D();   // The steering force directing us away from other people.
   
   
   /**
@@ -91,11 +93,44 @@ class Person extends Mover {
     
 
     // Determine whether to steer towards our targetPosition
-    if (predictedPosition.distanceTo(targetPosition) > path.getWidth()*0.4) {
-      isSteering = true;
+    if (predictedPosition.distanceTo(targetPosition) > path.getWidth()*0.4 || isAvoidSteering) {
+      isFollowSteering = true;
       seek(targetPosition);
     } else {
-      isSteering = false;
+      isFollowSteering = false;
+    }
+  }
+  
+  /**
+   * Avoid other people in the world who are near me.
+   */
+  public void avoid(ArrayList<Person> people) {
+    Vec2D sum = new Vec2D();   // Start with a zero vector
+    int count = 0;
+    
+    for (Person otherPerson : people) {
+      Vec2D otherPersonPosition = otherPerson.getPosition();
+      float distance = position.distanceTo(otherPersonPosition);
+      if ((distance > 0) && (distance < DESIRED_SEPARATION)) {
+        Vec2D diff = position.sub(otherPersonPosition);
+        diff.normalize();
+        // The closer the other person is, the more we should flee.
+        diff.scaleSelf(1/distance);
+        sum.add(diff);
+        count++;
+      }
+    }
+    
+    if (count > 0) {
+      isAvoidSteering = true;
+      sum.scaleSelf(1/count);
+      sum.normalize();
+      sum.scaleSelf(maxSpeed);
+      avoidSteeringForce = sum.sub(velocity);
+      avoidSteeringForce.limit(maxForce);
+      applyForce(avoidSteeringForce.scale(AVOID_WEIGHT));
+    } else {
+      isAvoidSteering = false;
     }
   }
   
@@ -209,11 +244,11 @@ class Person extends Mover {
     }
     
     // Steering force = desired - velocity
-    steeringForce = desired.sub(velocity);
+    followSteeringForce = desired.sub(velocity);
     // Limit the magnitude of the steering force.
-    steeringForce.limit(maxForce);
+    followSteeringForce.limit(maxForce);
     // Apply the force to the object's acceleration
-    applyForce(steeringForce);
+    applyForce(followSteeringForce.scale(FOLLOW_WEIGHT));
   }
   
   /**
@@ -232,18 +267,30 @@ class Person extends Mover {
     gfx.line(predictedPosition, targetPosition);
     noStroke();
     // Red if we are steering, black otherwise
-    if (isSteering) {
+    if (isFollowSteering) {
       fill(#ff0000);
     } else {
       fill(#000000);
     }
     gfx.ellipse(new Ellipse(targetPosition, 5));
     
-    // Draw the steering force if active
-    if (isSteering) {
+    // Draw the follow steering force if active
+    if (isFollowSteering) {
       stroke(#66ffff);
       noFill();
-      gfx.line(position, position.add(steeringForce.scale(1000)));
+      gfx.line(position, position.add(followSteeringForce.scale(1000)));
+    }
+    
+    // Draw the desired separation distance ring
+    stroke(#0000ff);
+    noFill();
+    gfx.ellipse(new Ellipse(position, DESIRED_SEPARATION));
+    
+    // Draw the avoid steering force if active
+    if (isAvoidSteering) {
+      stroke(#0000ff);
+      noFill();
+      gfx.line(position, position.add(avoidSteeringForce.scale(1000)));
     }
   }
 }

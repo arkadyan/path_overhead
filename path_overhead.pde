@@ -51,6 +51,7 @@ void draw() {
   // Update and draw each person.
   ArrayList<Person> personReapList = new ArrayList();
   for (Person person : people) {
+    person.avoid(people);
     person.follow(path);
     person.update();
     if (person.getPosition().x+15 < 0 || person.getPosition().x-15 > width) {
