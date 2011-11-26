@@ -25,15 +25,16 @@ class Person extends Mover {
    * Creates a new person position at the given location.
    * 
    * @param pos  The position to start at.
+   * @param ms  The maximum speed this person should move.
+   * @param dir  The initial direction the person should be moving: -1 for left, +1 for right.
    */
-  Person(Vec2D pos) {
+  Person(Vec2D pos, float ms, int dir) {
     position = new Vec2D(pos);
+    maxSpeed = ms;
+    velocity = new Vec2D(maxSpeed * dir, 0);
     
-    maxSpeed = 1;
-    maxForce = 0.1;
-    
-    velocity = new Vec2D(maxSpeed, 0);
     acceleration = new Vec2D(0, 0);
+    maxForce = 0.1;
   }
   
   

@@ -8,7 +8,8 @@ private static final int WORLD_HEIGHT = 480;
 
 private static final color GRASS_COLOR = #017f16;
 private static final int NUM_TREES = 20;
-/*private static final int NUM_TREES = 2000;*/
+
+private int timeOfLastPerson;
 
 // Whether or not to display extra visuals for debugging.
 private boolean debug = false;
@@ -33,8 +34,7 @@ void setup() {
   placeTrees();
   
   people = new ArrayList();
-  // Start the first person at the left end of the path.
-  people.add(new Person(new Vec2D(0, 380)));
+  addPerson();
 }
 
 void draw() {
@@ -64,6 +64,11 @@ void draw() {
   for (Person person : personReapList) {
     people.remove(person);
   }
+  
+  // Potentially create a new person
+  if (random(millis()-timeOfLastPerson) > 10000) {
+    addPerson();
+  }
 }
 
 /**
@@ -83,4 +88,18 @@ private void placeTrees() {
   for (int i=0; i<trees.length; i++) {
     trees[i] = new Tree(random(WORLD_WIDTH), random(WORLD_HEIGHT));
   }
+}
+
+/**
+ * Add a new person at one end or the other of the path.
+ */
+private void addPerson() {
+  if (random(1) < 0.5) {
+    // Start the person at the left end of the path.
+    people.add(new Person(new Vec2D(0, 380), random(2), +1));
+  } else {
+    // Start the person at the right end of the path.
+    people.add(new Person(new Vec2D(width, 90), random(2), -1));
+  }
+  timeOfLastPerson = millis();
 }
