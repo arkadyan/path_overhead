@@ -13,6 +13,8 @@ class Person extends Mover {
   static private final int BODY_WIDTH = 15;
   static private final int HEAD_LENGTH = 8;
   static private final int HEAD_WIDTH = 6;
+  
+  private int direction;
     
   // Properties shown while debugging
   private Vec2D predictedPosition;   // Where we expect to be in the future.
@@ -31,6 +33,7 @@ class Person extends Mover {
   Person(Vec2D pos, float ms, int dir) {
     position = new Vec2D(pos);
     maxSpeed = ms;
+    direction = dir;
     velocity = new Vec2D(maxSpeed * dir, 0);
     
     acceleration = new Vec2D(0, 0);
@@ -140,13 +143,18 @@ class Person extends Mover {
         
         // Look at the direction of the line segment so we can seek 
         // a little bit ahead of the normal.
-        Vec2D direction = b.sub(a);
-        direction.normalize();
+        Vec2D pathDirection;
+        if (direction > 0) {
+          pathDirection = b.sub(a);
+        } else {
+          pathDirection = a.sub(b);
+        }
+        pathDirection.normalize();
         // This is an oversimplification.
         // It should be based on distance to the path and velocity.
-        direction.scaleSelf(10);
+        pathDirection.scaleSelf(10);
         target = normal.copy();
-        target.addSelf(direction);
+        target.addSelf(pathDirection);
       }
     }
     
