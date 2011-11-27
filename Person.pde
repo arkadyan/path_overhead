@@ -14,6 +14,11 @@ class Person extends Mover {
   static private final int HEAD_LENGTH = 8;
   static private final int HEAD_WIDTH = 6;
   
+  // How far to keep away from other people.
+  static private final int DESIRED_SEPARATION = 100;
+  static private final float FOLLOW_WEIGHT = 1;
+  static private final float AVOID_WEIGHT = 0.5;
+  
   private int direction;
     
   // Properties shown while debugging
