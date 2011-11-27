@@ -130,7 +130,9 @@ class Person extends Mover {
       // This only works because we know that our path goes from left to right.
       // We could have a more sophisticated test to tell if the point
       // is in the line segment or not.
-      if (tmpNormal.x < a.x || tmpNormal.x > b.x) {
+      if (tmpNormal.x < a.x) {
+        tmpNormal = a.copy();
+      } else if (tmpNormal.x > b.x) {
         tmpNormal = b.copy();
       }
       
