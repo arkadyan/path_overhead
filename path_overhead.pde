@@ -2,8 +2,8 @@ import processing.video.*;
 import toxi.processing.*;
 
 
-/*private static final int WORLD_WIDTH = 7200;*/
-private static final int WORLD_WIDTH = 720;
+/*private static final int WORLD_WIDTH = 6800;*/
+private static final int WORLD_WIDTH = 680;
 /*private static final int WORLD_HEIGHT = 4800;*/
 private static final int WORLD_HEIGHT = 480;
 
@@ -29,7 +29,7 @@ private ArrayList<Person> people;
 
 
 void setup() {
-  size(720, 480);
+  size(680, 480);
 /*  size(1920, 1355);*/
   smooth();
   noCursor();
