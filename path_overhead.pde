@@ -1,3 +1,4 @@
+import processing.video.*;
 import toxi.processing.*;
 
 
@@ -16,6 +17,12 @@ private boolean debug = false;
 
 ToxiclibsSupport gfx;
 
+// Whether or not to record a movie with this run.
+// NOTE: Be sure to quit the running sketch by pressing ESC.
+private boolean makingMovie = false;
+// MovieMake object to write a movie file.
+private MovieMaker mm;
+
 private Path path;
 private Tree[] trees = new Tree[NUM_TREES];
 private ArrayList<Person> people;
@@ -29,6 +36,12 @@ void setup() {
   ellipseMode(CENTER);
   
   gfx = new ToxiclibsSupport(this);
+  
+  // Create MovieMaker object with size, filename,
+  // compression codec and quality, framerate
+  if (makingMovie) {
+    mm = new MovieMaker(this, width, height, "path_overhead.mov", 30, MovieMaker.H263, MovieMaker.HIGH);
+  }
   
   path = new Path();
   placeTrees();
@@ -70,6 +83,10 @@ void draw() {
   if (random(millis()-timeOfLastPerson) > 10000) {
     addPerson();
   }
+
+  if (makingMovie) {
+    mm.addFrame();
+  }
 }
 
 /**
@@ -77,6 +94,14 @@ void draw() {
  */
 void keyPressed() {
   if (key == ' ') debug = ! debug;
+  
+  // Finish the movie if the Escape key is pressed.
+  if (key == ESC) {
+    if (makingMovie) {
+      mm.finish();
+    }
+    exit();
+  }
 }
 
 
