@@ -18,7 +18,7 @@ public class Path {
     path.add(new Vec2D(0, 400));
     path.add(new Vec2D(150, 350));
     path.add(new Vec2D(500, 150));
-    path.add(new Vec2D(680, 80));
+    path.add(new Vec2D(720, 80));
   }
   
   /**
