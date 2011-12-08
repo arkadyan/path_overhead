@@ -8,7 +8,7 @@ private static final int WORLD_WIDTH = 720;
 private static final int WORLD_HEIGHT = 480;
 
 private static final color GRASS_COLOR = #017f16;
-private static final int NUM_TREES = 20;
+private static final int NUM_TREES = 12;
 
 private int timeOfLastPerson;
 
@@ -44,6 +44,7 @@ void setup() {
   }
   
   path = new Path();
+  
   placeTrees();
   
   people = new ArrayList();
@@ -108,10 +109,8 @@ void keyPressed() {
  * Place trees randomly around the grounds.
  */
 private void placeTrees() {
-  // TODO: Keep the trees off the path.
-  // TODO: Keep the trees off each other.
   for (int i=0; i<trees.length; i++) {
-    trees[i] = new Tree(random(WORLD_WIDTH), random(WORLD_HEIGHT));
+    trees[i] = new Tree(WORLD_WIDTH, WORLD_HEIGHT, path);
   }
 }
 
