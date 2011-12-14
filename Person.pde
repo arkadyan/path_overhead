@@ -16,8 +16,8 @@ class Person extends Mover {
   
   // How far to keep away from other people.
   static private final int DESIRED_SEPARATION = 100;
-  static private final float FOLLOW_WEIGHT = 1;
-  static private final float AVOID_WEIGHT = 0.5;
+  static private final float FOLLOW_WEIGHT = 1.0;
+  static private final float AVOID_WEIGHT = 0.75;
   
   private int direction;
     
@@ -108,10 +108,11 @@ class Person extends Mover {
   
   /**
    * Avoid other people in the world who are near me.
+   * 
+   * @param people  A list of all the people in the world.
    */
   public void avoid(ArrayList<Person> people) {
     Vec2D sum = new Vec2D();   // Start with a zero vector
-    int count = 0;
     
     for (Person otherPerson : people) {
       Vec2D otherPersonPosition = otherPerson.getPosition();
@@ -121,14 +122,12 @@ class Person extends Mover {
         diff.normalize();
         // The closer the other person is, the more we should flee.
         diff.scaleSelf(1/distance);
-        sum.add(diff);
-        count++;
+        sum.addSelf(diff);
       }
     }
     
-    if (count > 0) {
+    if (sum.magnitude() > 0) {
       isAvoidSteering = true;
-      sum.scaleSelf(1/count);
       sum.normalize();
       sum.scaleSelf(maxSpeed);
       avoidSteeringForce = sum.sub(velocity);
@@ -197,6 +196,9 @@ class Person extends Mover {
         pathDirection.scaleSelf(10);
         target = normal.copy();
         target.addSelf(pathDirection);
+        
+        // Target out to the right of the path center a bit.
+        target.addSelf( pathDirection.perpendicular().normalizeTo(10) );
       }
     }
     
@@ -281,9 +283,9 @@ class Person extends Mover {
     
     // Draw the follow steering force if active
     if (isFollowSteering) {
-      stroke(#66ffff);
+      stroke(#00E043);
       noFill();
-      gfx.line(position, position.add(followSteeringForce.scale(1000)));
+      Arrow.draw(gfx, position, position.add(followSteeringForce.scale(1000)), 4);
     }
     
     // Draw the desired separation distance ring
@@ -295,7 +297,7 @@ class Person extends Mover {
     if (isAvoidSteering) {
       stroke(#0000ff);
       noFill();
-      gfx.line(position, position.add(avoidSteeringForce.scale(1000)));
+      Arrow.draw(gfx, position, position.add(avoidSteeringForce.scale(1000)), 4);
     }
   }
 }

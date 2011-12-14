@@ -5,7 +5,7 @@ public class Path {
   
   
   static private final color PATH_COLOR = #dc982c;
-  static private final int PATH_WIDTH = 70;
+  static private final int PATH_WIDTH = 100;
 
   Spline2D path;
   
